@@ -1,0 +1,1168 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Formula 1 Race Intelligence | Shraddha Patel - Tableau Telemetry Platform</title>
+  <meta name="description" content="Production-grade Formula 1 Race Intelligence platform by Shraddha Patel featuring deep-dive telemetry, 17 seasons of racing data, 6,464 race outcomes, and interactive Tableau Public dashboards.">
+  <meta name="author" content="Shraddha Patel">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Formula 1 Race Intelligence Dashboard - Shraddha Patel">
+  <meta property="og:description" content="Interactive Formula 1 telemetry platform analyzing 17 seasons (2010â€“2026), 29 circuits, and 10 constructors with Tableau Public.">
+  <meta property="og:type" content="website">
+
+  <!-- Google Fonts: Orbitron (Headings) & Inter (Body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Orbitron:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- Chart.js 4.4 CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="static/css/style.css">
+</head>
+<body>
+
+  <!-- ========================================================================
+       F1 RACING LIGHT SEQUENCE PRELOADER ("LIGHTS OUT")
+       ======================================================================== -->
+  <div id="preloader" role="dialog" aria-label="Preloader">
+    <div class="preloader-content">
+      <div class="f1-gantry-frame">
+        <div class="gantry-header">
+          <span class="f1-badge">F1</span>
+          <span class="gantry-title">RACE INTELLIGENCE TELEMETRY</span>
+        </div>
+        <div class="gantry-lights-row" id="gantryLights">
+          <div class="light-unit"><div class="red-lamp" id="light1"></div></div>
+          <div class="light-unit"><div class="red-lamp" id="light2"></div></div>
+          <div class="light-unit"><div class="red-lamp" id="light3"></div></div>
+          <div class="light-unit"><div class="red-lamp" id="light4"></div></div>
+          <div class="light-unit"><div class="red-lamp" id="light5"></div></div>
+        </div>
+        <div class="gantry-status" id="preloaderStatus">INITIALIZING TELEMETRY STREAMS...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       STICKY GLASS NAVIGATION BAR
+       ======================================================================== -->
+  <header class="navbar" id="navbar">
+    <div class="container navbar-container">
+      <a href="#home" class="brand-logo" aria-label="Formula 1 Race Intelligence Home">
+        <span class="f1-badge">F1</span>
+        <span class="brand-text">RACE INTELLIGENCE</span>
+      </a>
+
+      <!-- Desktop & Mobile Navigation Links -->
+      <nav>
+        <ul class="nav-menu" id="navMenu">
+          <li><a href="#home" class="nav-link active">HOME</a></li>
+          <li><a href="#project" class="nav-link">OVERVIEW</a></li>
+          <li><a href="#insights" class="nav-link">DIMENSIONS</a></li>
+          <li><a href="#dashboard" class="nav-link">DASHBOARD</a></li>
+          <li><a href="#story" class="nav-link">STORY</a></li>
+          <li><a href="#gallery" class="nav-link">GALLERY</a></li>
+          <li><a href="#insights-data" class="nav-link">TELEMETRY</a></li>
+          <li><a href="#drivers" class="nav-link">DRIVERS</a></li>
+          <li><a href="#contact" class="btn-nav-contact">CONTACT</a></li>
+        </ul>
+      </nav>
+
+      <!-- Mobile Hamburger Toggle -->
+      <button class="hamburger-btn" id="hamburgerBtn" aria-label="Toggle mobile menu">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <!-- ======================================================================
+         SECTION 1: HERO SECTION (Full Viewport, Telemetry Aesthetics)
+         ====================================================================== -->
+    <section class="hero-section" id="home">
+      <div class="hero-bg-layer">
+        <div class="hero-skyline" style="background-image: url('/static/assets/hero-skyline.jpg');"></div>
+        <div class="hero-gradient-overlay"></div>
+        <div class="hero-scanlines"></div>
+      </div>
+
+      <div class="container">
+        <div class="hero-content">
+          <!-- Live analytics pill badge -->
+          <div class="hero-live-pill">
+            <span class="live-pulse-dot"></span>
+            <span>LIVE RACE TELEMETRY & CHAMPIONSHIP INTELLIGENCE</span>
+          </div>
+
+          <!-- Giant F1 Title -->
+          <h1 class="hero-title">
+            FORMULA <span class="title-f1-num">1</span>
+          </h1>
+          <h2 class="hero-subtitle">
+            RACE INTELLIGENCE DASHBOARD
+          </h2>
+
+          <!-- Author Attribution Card -->
+          <div class="hero-author-credit">
+            <span class="author-tag"><i class="fa-solid fa-code"></i> LEAD ARCHITECT:</span>
+            <span class="author-name">Shraddha Patel</span>
+            <span class="author-sep">â€¢</span>
+            <span class="author-badge">
+              <i class="fa-solid fa-chart-column"></i> Tableau Public:
+              <a href="https://public.tableau.com/app/profile/shraddha.patel" target="_blank" rel="noopener">shraddha patel</a>
+            </span>
+            <span class="author-sep">â€¢</span>
+            <span class="author-badge">
+              <i class="fa-solid fa-layer-group"></i> Workbook: <strong>F1 Race Intelligence Dashboard_2</strong>
+            </span>
+          </div>
+
+          <p class="hero-desc">
+            An authoritative motorsport analytics terminal translating 17 seasons (2010â€“2026) of Formula 1 telemetry, 6,464 race outcomes, and 13,750+ connected data records into interactive championship intelligence. Built with Tableau Public, Python Flask, and modern data engineering.
+          </p>
+
+          <!-- Action Buttons (3 Quick-Scroll CTAs) -->
+          <div class="hero-cta-group">
+            <a href="#dashboard" class="btn-primary">
+              <i class="fa-solid fa-chart-simple"></i> EXPLORE LIVE DASHBOARD
+            </a>
+            <a href="#story" class="btn-secondary">
+              <i class="fa-solid fa-book-open"></i> VIEW 9-SCENE DATA STORY
+            </a>
+            <a href="#insights" class="btn-tertiary">
+              <i class="fa-solid fa-compass"></i> ANALYTICAL DIMENSIONS
+            </a>
+          </div>
+
+          <!-- Stats Strip (4 Core KPIs, Glass Border, Count-up) -->
+          <div class="hero-stats-strip">
+            <div class="stat-cell">
+              <div class="stat-num" data-counter="6464" data-suffix="">6,464</div>
+              <div class="stat-label">RACE OUTCOMES LOGGED</div>
+            </div>
+            <div class="stat-cell">
+              <div class="stat-num" data-counter="17" data-suffix="">17</div>
+              <div class="stat-label">SEASONS IN PLAY (2010â€“2026)</div>
+            </div>
+            <div class="stat-cell">
+              <div class="stat-num" data-counter="29" data-suffix="">29</div>
+              <div class="stat-label">CIRCUITS SHOWCASED</div>
+            </div>
+            <div class="stat-cell">
+              <div class="stat-num" data-counter="10" data-suffix="">10</div>
+              <div class="stat-label">COMPETING TEAMS</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scroll Indicator -->
+      <a href="#project" class="hero-scroll-indicator" aria-label="Scroll to Project Overview">
+        <div class="mouse-icon">
+          <div class="mouse-wheel"></div>
+        </div>
+        <span class="scroll-text">SCROLL</span>
+      </a>
+    </section>
+
+    <!-- ======================================================================
+         SECTION 2: PROJECT OVERVIEW SECTION (Two-Column, Animated Race Track)
+         ====================================================================== -->
+    <section class="project-section" id="project">
+      <div class="section-top-line"></div>
+      <div class="container">
+        <div class="project-grid">
+          <!-- Left Column: Animated Circuit Card & Tags -->
+          <div class="track-card">
+            <div class="track-card-accent-bar"></div>
+            
+            <div class="circuit-svg-container">
+              <svg class="circuit-svg" viewBox="0 0 500 320" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <!-- Glow filter for traveling race car -->
+                  <filter id="carGlow" x="-50%" y="-50%" width="200%" height="200%">
+                    <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="blur" />
+                    <feMerge>
+                      <feMergeNode in="blur" />
+                      <feMergeNode in="SourceGraphic" />
+                    </feMerge>
+                  </filter>
+                  <!-- Track Path Definition -->
+                  <path id="racingTrackPath" d="M 130,240 L 380,240 A 30,30 0 0,0 410,210 L 410,80 A 30,30 0 0,0 380,50 L 260,50 A 30,30 0 0,0 235,65 L 180,140 A 30,30 0 0,1 155,155 L 130,155 A 30,30 0 0,0 100,185 L 100,210 A 30,30 0 0,0 130,240 Z" />
+                </defs>
+
+                <!-- Track Road Surface Ribbon -->
+                <path d="M 130,240 L 380,240 A 30,30 0 0,0 410,210 L 410,80 A 30,30 0 0,0 380,50 L 260,50 A 30,30 0 0,0 235,65 L 180,140 A 30,30 0 0,1 155,155 L 130,155 A 30,30 0 0,0 100,185 L 100,210 A 30,30 0 0,0 130,240 Z"
+                      fill="none" stroke="#1c1c1c" stroke-width="26" stroke-linejoin="round" stroke-linecap="round" />
+
+                <!-- Outer Boundary Line -->
+                <path d="M 130,240 L 380,240 A 30,30 0 0,0 410,210 L 410,80 A 30,30 0 0,0 380,50 L 260,50 A 30,30 0 0,0 235,65 L 180,140 A 30,30 0 0,1 155,155 L 130,155 A 30,30 0 0,0 100,185 L 100,210 A 30,30 0 0,0 130,240 Z"
+                      fill="none" stroke="#2c2c2c" stroke-width="28" stroke-linejoin="round" stroke-linecap="round" opacity="0.3" />
+
+                <!-- Dashed Red Racing Line -->
+                <path d="M 130,240 L 380,240 A 30,30 0 0,0 410,210 L 410,80 A 30,30 0 0,0 380,50 L 260,50 A 30,30 0 0,0 235,65 L 180,140 A 30,30 0 0,1 155,155 L 130,155 A 30,30 0 0,0 100,185 L 100,210 A 30,30 0 0,0 130,240 Z"
+                      fill="none" stroke="#e10600" stroke-width="2" stroke-dasharray="6,6" stroke-linejoin="round" opacity="0.85" />
+
+                <!-- Green DRS Straight Zone Bar -->
+                <line x1="160" y1="234" x2="235" y2="234" stroke="#22c55e" stroke-width="4" stroke-linecap="round" />
+                <text x="165" y="226" fill="#22c55e" font-family="'Orbitron', sans-serif" font-size="9" font-weight="700">DRS</text>
+
+                <!-- Sector 1 Marker (Yellow) -->
+                <circle cx="260" cy="50" r="4.5" fill="#ffd400" />
+                <text x="268" y="44" fill="#ffd400" font-family="'Orbitron', sans-serif" font-size="9" font-weight="700">S1</text>
+
+                <!-- Sector 2 Marker (Cyan) -->
+                <circle cx="410" cy="150" r="4.5" fill="#00e5ff" />
+                <text x="418" y="153" fill="#00e5ff" font-family="'Orbitron', sans-serif" font-size="9" font-weight="700">S2</text>
+
+                <!-- Sector 3 Marker (Orange) -->
+                <circle cx="160" cy="240" r="4.5" fill="#ff8000" />
+                <text x="168" y="256" fill="#ff8000" font-family="'Orbitron', sans-serif" font-size="9" font-weight="700">S3</text>
+
+                <!-- Animated Red Car Dot Racing on Path -->
+                <circle r="7" fill="#e10600" filter="url(#carGlow)">
+                  <animateMotion dur="6.5s" repeatCount="indefinite" rotate="auto">
+                    <mpath href="#racingTrackPath" />
+                  </animateMotion>
+                </circle>
+              </svg>
+            </div>
+
+            <!-- Tags Row Below Track -->
+            <div class="track-pills-wrap">
+              <span class="track-pill pill-red">DATA ANALYTICS</span>
+              <span class="track-pill pill-yellow">TABLEAU PUBLIC</span>
+              <span class="track-pill pill-grey">RACE STRATEGY</span>
+              <span class="track-pill pill-red">TELEMETRY ENGINE</span>
+              <span class="track-pill pill-yellow">CHAMPIONSHIP</span>
+              <span class="track-pill pill-grey">13.7K DATA RECORDS</span>
+            </div>
+          </div>
+
+          <!-- Right Column: Project Overview Story & 5 Core Pillars -->
+          <div class="project-right">
+            <span class="project-eyebrow">TELEMETRY ARCHITECTURE & SCOPE</span>
+            <h2 class="project-title">Transforming F1 Telemetry Into Championship Intelligence</h2>
+            
+            <p class="project-desc-p">
+              Modern Formula 1 racing generates vast volumes of high-frequency timing loops, sector splits, speed trap telemetry, and championship standings data. Converting these fragmented records into decisive strategic intelligence requires an integrated analytical architecture.
+            </p>
+            <p class="project-desc-p">
+              This platform aggregates 17 seasons of racing data (2010â€“2026) totaling 6,464 race outcomes across 29 world circuits. Developed by <strong>Shraddha Patel</strong>, the project bridges multi-table data modeling in Tableau Public with a Python Flask service layer, unlocking deep-dive diagnostics across 5 core telemetry pillars:
+            </p>
+
+            <!-- 5 Core Pillars List -->
+            <div class="project-features">
+              <div class="project-feature-item">
+                <div class="feature-icon-box"><i class="fa-solid fa-globe"></i></div>
+                <div class="feature-info">
+                  <h4>1. Global Race Overview</h4>
+                  <p>Comprehensive spatial analysis across all 29 Grand Prix host circuits mapping geographic race volume and driver origin distributions.</p>
+                </div>
+              </div>
+
+              <div class="project-feature-item">
+                <div class="feature-icon-box"><i class="fa-solid fa-user-astronaut"></i></div>
+                <div class="feature-info">
+                  <h4>2. Driver Performance Metrics</h4>
+                  <p>Qualifying pace deltas, race pace progression, dynamic Top-N parameter scoring, and podium conversion ratios.</p>
+                </div>
+              </div>
+
+              <div class="project-feature-item">
+                <div class="feature-icon-box"><i class="fa-solid fa-trophy"></i></div>
+                <div class="feature-info">
+                  <h4>3. Constructor Championship Battle</h4>
+                  <p>Multi-season constructor trajectory highlighting Red Bull Racing (8,006 pts) and Mercedes-AMG (7,790 pts) across hybrid regulations.</p>
+                </div>
+              </div>
+
+              <div class="project-feature-item">
+                <div class="feature-icon-box"><i class="fa-solid fa-compact-disc"></i></div>
+                <div class="feature-info">
+                  <h4>4. Pit Stop & Tyre Strategy Analysis</h4>
+                  <p>Pirelli compound distribution across 4 specifications (Soft, Medium, Hard, Intermediate) and stint degradation modeling.</p>
+                </div>
+              </div>
+
+              <div class="project-feature-item">
+                <div class="feature-icon-box"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                <div class="feature-info">
+                  <h4>5. Reliability & DNF Diagnostics</h4>
+                  <p>Mechanical vs. accident attrition categorization (Engine, Collision, Transmission, Suspension, Brakes) and Safety Car impacts.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- CTA -->
+            <div>
+              <a href="#dashboard" class="btn-primary">
+                <i class="fa-solid fa-bolt"></i> EXPLORE DASHBOARD
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         SECTION 3: INTELLIGENCE DIMENSIONS SECTION (Ticker + 3x2 Grid)
+         ====================================================================== -->
+    <section class="dimensions-section" id="insights">
+      <div class="section-top-line"></div>
+      <div class="container">
+        <!-- Header -->
+        <div class="section-header">
+          <span class="section-eyebrow">WHAT WE ANALYZE</span>
+          <h2 class="section-title">Intelligence <span class="text-red">Dimensions</span></h2>
+          <p class="section-subtitle">Six core analytical dimensions powering the Formula 1 Race Intelligence telemetry platform</p>
+          <div class="diamond-divider">
+            <span class="line"></span>
+            <span class="diamond">â—†</span>
+            <span class="line"></span>
+          </div>
+        </div>
+
+        <!-- LIVE DATA Ticker Bar -->
+        <div class="live-ticker-container">
+          <div class="ticker-badge">
+            <i class="fa-solid fa-satellite-dish"></i> LIVE TELEMETRY
+          </div>
+          <div class="ticker-track-wrap">
+            <div class="ticker-track" id="tickerTrack">
+              <span class="ticker-item">Shraddha Patel: Formula 1 Race Intelligence Dashboard & 9-Scene Story Published</span>
+              <span class="ticker-item">Max Verstappen leads modern Championship with 4,640 career points & 3 World Titles</span>
+              <span class="ticker-item">Red Bull Racing leads Constructor Championship with 8,006 accumulated points</span>
+              <span class="ticker-item">Lewis Hamilton holds 6 hybrid titles and 4,491 points</span>
+              <span class="ticker-item">Bahrain International Circuit logged 2,168 outcome records across 17 seasons</span>
+              <span class="ticker-item">Soft compound represents 31.52% of all telemetry laps, followed by Medium (30.78%)</span>
+              <span class="ticker-item">6,464 total race outcomes logged across 29 world circuits and 10 competing teams</span>
+              <span class="ticker-item">Modern grid reliability benchmark stands at 91.4% race completion rate</span>
+              <!-- Repeated for infinite ticker loop -->
+              <span class="ticker-item">Shraddha Patel: Formula 1 Race Intelligence Dashboard & 9-Scene Story Published</span>
+              <span class="ticker-item">Max Verstappen leads modern Championship with 4,640 career points & 3 World Titles</span>
+              <span class="ticker-item">Red Bull Racing leads Constructor Championship with 8,006 accumulated points</span>
+              <span class="ticker-item">Lewis Hamilton holds 6 hybrid titles and 4,491 points</span>
+              <span class="ticker-item">Bahrain International Circuit logged 2,168 outcome records across 17 seasons</span>
+              <span class="ticker-item">Soft compound represents 31.52% of all telemetry laps, followed by Medium (30.78%)</span>
+              <span class="ticker-item">6,464 total race outcomes logged across 29 world circuits and 10 competing teams</span>
+              <span class="ticker-item">Modern grid reliability benchmark stands at 91.4% race completion rate</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3x2 Grid of Dimension Cards -->
+        <div class="dimensions-grid">
+          <!-- Card 1 -->
+          <div class="dimension-card">
+            <div class="dimension-icon-tile"><i class="fa-solid fa-route"></i></div>
+            <h3 class="dimension-title">Circuit Analysis</h3>
+            <p class="dimension-desc">
+              Track-by-track spatial and telemetry fingerprinting across 29 world circuits from Monza's temple of speed to Bahrain's desert braking zones.
+            </p>
+            <div class="dimension-stat">â†’ 29 HOST CIRCUITS MAPPED</div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="dimension-card">
+            <div class="dimension-icon-tile"><i class="fa-solid fa-stopwatch-20"></i></div>
+            <h3 class="dimension-title">Lap Time Breakdown</h3>
+            <p class="dimension-desc">
+              Sector-by-sector time analysis (S1, S2, S3) for every driver across qualifying, practice, and race sessions at millisecond precision.
+            </p>
+            <div class="dimension-stat">â†’ MILLISECOND PRECISION & DELTAS</div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="dimension-card">
+            <div class="dimension-icon-tile"><i class="fa-solid fa-compact-disc"></i></div>
+            <h3 class="dimension-title">Tyre Strategy</h3>
+            <p class="dimension-desc">
+              Soft, Medium, Hard, and Intermediate compound degradation curves, stint length models, and optimal pit window calculations.
+            </p>
+            <div class="dimension-stat">â†’ 4 COMPOUNDS IN PLAY</div>
+          </div>
+
+          <!-- Card 4 -->
+          <div class="dimension-card">
+            <div class="dimension-icon-tile"><i class="fa-solid fa-users-viewfinder"></i></div>
+            <h3 class="dimension-title">Driver Head-to-Head</h3>
+            <p class="dimension-desc">
+              Compare teammates and rivals across qualifying deltas, race pace, podiums, DNFs, and dynamic Top-N leaderboard scoring.
+            </p>
+            <div class="dimension-stat">â†’ TOP N DYNAMIC FILTERING</div>
+          </div>
+
+          <!-- Card 5 -->
+          <div class="dimension-card">
+            <div class="dimension-icon-tile"><i class="fa-solid fa-chart-line"></i></div>
+            <h3 class="dimension-title">Points Progression</h3>
+            <p class="dimension-desc">
+              Track multi-season championship point trajectories across 17 seasons (2010â€“2026), identifying pivotal title-deciding races.
+            </p>
+            <div class="dimension-stat">â†’ 17 SEASONS (2010â€“2026)</div>
+          </div>
+
+          <!-- Card 6 -->
+          <div class="dimension-card">
+            <div class="dimension-icon-tile"><i class="fa-solid fa-triangle-exclamation"></i></div>
+            <h3 class="dimension-title">Reliability & DNF Diagnostics</h3>
+            <p class="dimension-desc">
+              Quantify mechanical versus accident retirements and track how Virtual and physical Safety Cars shaped race outcomes.
+            </p>
+            <div class="dimension-stat">â†’ DNF REASON & ATTRITION DIAGNOSTICS</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         SECTION 4: DASHBOARD SECTION (Browser Window Frame + Tableau Public)
+         ====================================================================== -->
+    <section class="dashboard-section" id="dashboard">
+      <div class="section-top-line"></div>
+      <div class="container">
+        <!-- Header -->
+        <div class="section-header">
+          <span class="section-eyebrow">TABLEAU VISUALIZATION ENGINE</span>
+          <h2 class="section-title">Race Intelligence <span class="text-red">Dashboard</span></h2>
+          <p class="section-subtitle">Live interactive Tableau Public workbook by Shraddha Patel featuring dynamic filtering, Top-N controls, and comprehensive telemetry.</p>
+          <div class="diamond-divider">
+            <span class="line"></span>
+            <span class="diamond">â—†</span>
+            <span class="line"></span>
+          </div>
+        </div>
+
+        <!-- Embedded Views Switcher Tabs -->
+        <div class="embed-view-tabs">
+          <a href="#dashboard" class="embed-tab-btn active"><i class="fa-solid fa-chart-pie"></i> LIVE RACE DASHBOARD</a>
+          <a href="#story" class="embed-tab-btn"><i class="fa-solid fa-book-open"></i> 9-SCENE CHAMPIONSHIP STORY</a>
+        </div>
+
+        <!-- Window Frame Card -->
+        <div class="window-frame-container">
+          <!-- Window Header Bar -->
+          <div class="window-frame-bar">
+            <div class="window-controls-title">
+              <div class="macos-dots">
+                <span class="macos-dot dot-red"></span>
+                <span class="macos-dot dot-yellow"></span>
+                <span class="macos-dot dot-green"></span>
+              </div>
+              <span class="window-title">FORMULA 1 RACE INTELLIGENCE DASHBOARD | Shraddha Patel</span>
+            </div>
+            <span class="window-badge-pill badge-tableau-public">TABLEAU PUBLIC</span>
+          </div>
+
+                    <!-- Embed Notice Bar -->
+          <div class="embed-notice-bar">
+            <span class="notice-text">
+              <i class="fa-solid fa-circle-info"></i>
+              Interactive Telemetry Platform &mdash; Filter by DNF Reason, Season Range, or Dynamic Top-N Parameter.
+            </span>
+            <a href="https://prod-in-a.online.tableau.com/#/site/en25cs3090205-84b4be6312/views/F1RaceIntelligenceDashboard_2/FORMULA1RACEINTELLIGENCEDASHBOARD?:iid=1" target="_blank" rel="noopener" class="notice-link">
+              Open Fullscreen <i class="fa-solid fa-arrow-up-right-from-square"></i>
+            </a>
+          </div>
+          <!-- Viewport with Live Tableau Embed -->
+          <div class="window-viewport" id="dashboardViewport">
+            <div class="dashboard-embed-box" id="tableauDashboardContainer">
+              <iframe src="https://prod-in-a.online.tableau.com/t/en25cs3090205-84b4be6312/views/F1RaceIntelligenceDashboard_2/FORMULA1RACEINTELLIGENCEDASHBOARD?:embed=yes&:showVizHome=no&:toolbar=yes&:tabs=no&:showAppBanner=false"
+                      width="100%" height="860" frameborder="0"
+                      style="border:none; width:100%; min-height:860px; height:860px; display:block; background:#0a0a0f;"
+                      allowfullscreen="true"
+                      loading="lazy"
+                      title="Tableau Public Formula 1 Race Intelligence Dashboard"></iframe>
+            </div>
+          </div>
+
+          <!-- Bottom Actions Strip with KPI Summary -->
+          <div class="dashboard-actions-strip">
+            <div class="dashboard-kpi-summary">
+              <div class="kpi-mini-pill"><span class="lbl">Competing Teams:</span> <span class="val">10</span></div>
+              <div class="kpi-mini-pill"><span class="lbl">Seasons in Play:</span> <span class="val">17</span></div>
+              <div class="kpi-mini-pill"><span class="lbl">Race Outcomes Logged:</span> <span class="val">6,464</span></div>
+              <div class="kpi-mini-pill"><span class="lbl">Circuits Showcased:</span> <span class="val">29</span></div>
+            </div>
+            <div style="display:flex; gap:10px; align-items:center;">
+              <a href="https://prod-in-a.online.tableau.com/#/site/en25cs3090205-84b4be6312/views/F1RaceIntelligenceDashboard_2/FORMULA1RACEINTELLIGENCEDASHBOARD?:iid=1" target="_blank" rel="noopener" class="btn-action-outline" id="openExternalDashboard">
+                <i class="fa-solid fa-arrow-up-right-from-square"></i> Open on Tableau Public â†—
+              </a>
+              <button class="btn-primary" id="openFullscreenDashboard">
+                <i class="fa-solid fa-expand"></i> Full Screen â†—
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         SECTION 5: STORY SECTION (Tableau Story + 9-Scene Navigator)
+         ====================================================================== -->
+    <section class="story-section" id="story">
+      <div class="section-top-line"></div>
+      <div class="container">
+        <!-- Header -->
+        <div class="section-header">
+          <span class="section-eyebrow">DATA STORYTELLING</span>
+          <h2 class="section-title">Formula 1 Race Intelligence: <span class="text-red">Story</span></h2>
+          <p class="section-subtitle">Formula 1 Race Intelligence: From Global Overview to Championship Success â€” an interactive 9-scene narrative by Shraddha Patel.</p>
+          <div class="diamond-divider">
+            <span class="line"></span>
+            <span class="diamond">â—†</span>
+            <span class="line"></span>
+          </div>
+        </div>
+
+        <!-- Window Frame Card -->
+        <div class="window-frame-container">
+          <!-- Window Header Bar -->
+          <div class="window-frame-bar">
+            <div class="window-controls-title">
+              <div class="macos-dots">
+                <span class="macos-dot dot-red"></span>
+                <span class="macos-dot dot-yellow"></span>
+                <span class="macos-dot dot-green"></span>
+              </div>
+              <span class="window-title">FORMULA 1 RACE INTELLIGENCE: STORY (9 SCENES)</span>
+            </div>
+            <span class="window-badge-pill badge-tableau-story">â— TABLEAU STORY</span>
+          </div>
+
+                    <!-- Embed Notice Bar -->
+          <div class="embed-notice-bar">
+            <span class="notice-text">
+              <i class="fa-solid fa-circle-info"></i>
+              Interactive Telemetry Platform &mdash; Filter by DNF Reason, Season Range, or Dynamic Top-N Parameter.
+            </span>
+            <a href="https://prod-in-a.online.tableau.com/#/site/en25cs3090205-84b4be6312/views/F1RaceIntelligenceDashboard_2/FORMULA1RACEINTELLIGENCEDASHBOARD?:iid=1" target="_blank" rel="noopener" class="notice-link">
+              Open Fullscreen <i class="fa-solid fa-arrow-up-right-from-square"></i>
+            </a>
+          </div>
+          <!-- Viewport with Live Tableau Embed -->
+          <div class="window-viewport" id="storyViewport">
+            <div class="dashboard-embed-box" id="tableauStoryContainer">
+              <iframe src="https://prod-in-a.online.tableau.com/t/en25cs3090205-84b4be6312/views/F1RACEStory/Formula1RaceIntelligenceFromGlobalOverviewtoChampionshipSuccess?:embed=yes&:showVizHome=no&:toolbar=yes&:tabs=no&:showAppBanner=false"
+                      width="100%" height="860" frameborder="0"
+                      style="border:none; width:100%; min-height:860px; height:860px; display:block; background:#0a0a0f;"
+                      allowfullscreen="true"
+                      loading="lazy"
+                      title="Tableau Public Formula 1 Story"></iframe>
+            </div>
+          </div>
+
+          <!-- Bottom Actions Strip -->
+          <div class="dashboard-actions-strip">
+            <div class="dashboard-kpi-summary">
+              <div class="kpi-mini-pill"><span class="lbl">Story Narrative:</span> <span class="val">9 Scenes</span></div>
+              <div class="kpi-mini-pill"><span class="lbl">Global Filters:</span> <span class="val">DNF Reason, Year, Top N</span></div>
+              <div class="kpi-mini-pill"><span class="lbl">Author:</span> <span class="val">Shraddha Patel</span></div>
+            </div>
+            <div style="display:flex; gap:10px; align-items:center;">
+              <a href="https://prod-in-a.online.tableau.com/#/site/en25cs3090205-84b4be6312/views/F1RACEStory/Formula1RaceIntelligenceFromGlobalOverviewtoChampionshipSuccess?:iid=2" target="_blank" rel="noopener" class="btn-action-outline" id="openExternalStory">
+                <i class="fa-solid fa-arrow-up-right-from-square"></i> Open on Tableau Public â†—
+              </a>
+              <button class="btn-primary" id="openFullscreenStory">
+                <i class="fa-solid fa-expand"></i> Full Screen â†—
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Story Points Interactive Navigator (9 SCENES) -->
+        <div class="story-points-nav">
+          <div class="story-chips-row" id="storyChipsRow">
+            <button class="story-chip active" data-point="0"><span class="chip-num">1</span> KPI Summary Cards</button>
+            <button class="story-chip" data-point="1"><span class="chip-num">2</span> Global Driver Distribution</button>
+            <button class="story-chip" data-point="2"><span class="chip-num">3</span> Country-wise Participation</button>
+            <button class="story-chip" data-point="3"><span class="chip-num">4</span> Team Championship Analysis</button>
+            <button class="story-chip" data-point="4"><span class="chip-num">5</span> Driver Reliability Analysis</button>
+            <button class="story-chip" data-point="5"><span class="chip-num">6</span> Driver Performance Leaderboard</button>
+            <button class="story-chip" data-point="6"><span class="chip-num">7</span> Podium Achievements</button>
+            <button class="story-chip" data-point="7"><span class="chip-num">8</span> Tyre Compound Usage</button>
+            <button class="story-chip" data-point="8"><span class="chip-num">9</span> Team Performance Ranking</button>
+          </div>
+          <div class="story-point-caption" id="storyPointCaption">
+            <i class="fa-solid fa-circle-info"></i>
+            <span id="storyCaptionText">Scene 1: KPI Summary Cards (4 Core Operational Metrics) â€” Foundation telemetry metrics establishing 10 Competing Teams, 17 Hybrid-Era Seasons (2010â€“2026), 6,464 Logged Race Outcomes, and 29 Worldwide Circuits.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         SECTION 6: GALLERY SECTION (Masonry/Grid + Lightbox)
+         ====================================================================== -->
+    <section class="gallery-section" id="gallery">
+      <div class="section-top-line"></div>
+      <div class="container">
+        <!-- Header -->
+        <div class="section-header">
+          <span class="section-eyebrow">VISUALIZATION SHOWCASE</span>
+          <h2 class="section-title">Telemetry & <span class="text-red">Dashboard Gallery</span></h2>
+          <p class="section-subtitle">Visual architecture, Tableau captures, and interactive telemetry interfaces designed for Formula 1 championship intelligence.</p>
+          <div class="diamond-divider">
+            <span class="line"></span>
+            <span class="diamond">â—†</span>
+            <span class="line"></span>
+          </div>
+        </div>
+
+        <!-- Gallery Grid -->
+        <div class="gallery-grid">
+          <!-- Card 1: Dashboard Preview -->
+          <div class="gallery-card" data-img="/static/assets/dashboard-preview.png" data-caption="Tableau Public Dashboard: Full Telemetry & Analytics Hub">
+            <div class="gallery-img-wrap">
+              <img src="/static/assets/dashboard-preview.png" alt="Tableau Race Intelligence Dashboard" class="gallery-img" loading="lazy">
+              <div class="gallery-overlay">
+                <i class="fa-solid fa-magnifying-glass-plus"></i>
+                <span>EXPAND VIEW</span>
+              </div>
+            </div>
+            <div class="gallery-info">
+              <div class="gallery-tag">TABLEAU DASHBOARD</div>
+              <h4 class="gallery-card-title">Formula 1 Race Intelligence Dashboard</h4>
+              <p class="gallery-card-desc">8-panel telemetry hub integrating driver leaderboards, circuit volume, tyre distribution, and team standings.</p>
+            </div>
+          </div>
+
+          <!-- Card 2: Story Preview -->
+          <div class="gallery-card" data-img="/static/assets/story-preview.png" data-caption="Tableau Story: From Global Overview to Championship Success">
+            <div class="gallery-img-wrap">
+              <img src="/static/assets/story-preview.png" alt="Tableau Story View" class="gallery-img" loading="lazy">
+              <div class="gallery-overlay">
+                <i class="fa-solid fa-magnifying-glass-plus"></i>
+                <span>EXPAND VIEW</span>
+              </div>
+            </div>
+            <div class="gallery-info">
+              <div class="gallery-tag">DATA STORYTELLING</div>
+              <h4 class="gallery-card-title">Formula 1 Championship Story</h4>
+              <p class="gallery-card-desc">9-scene guided data narrative covering geographic reach, team championship battles, and tyre degradation models.</p>
+            </div>
+          </div>
+
+          <!-- Card 3: Hero Skyline Reference -->
+          <div class="gallery-card" data-img="/static/assets/hero-reference.png" data-caption="Platform Architecture: Split-Tone F1 Broadcast Aesthetic">
+            <div class="gallery-img-wrap">
+              <img src="/static/assets/hero-reference.png" alt="Hero Reference" class="gallery-img" loading="lazy">
+              <div class="gallery-overlay">
+                <i class="fa-solid fa-magnifying-glass-plus"></i>
+                <span>EXPAND VIEW</span>
+              </div>
+            </div>
+            <div class="gallery-info">
+              <div class="gallery-tag">UI/UX ARCHITECTURE</div>
+              <h4 class="gallery-card-title">Command Terminal Interface</h4>
+              <p class="gallery-card-desc">Obsidian dark theme, crimson accents, live indicator beacon, and animated telemetry metrics.</p>
+            </div>
+          </div>
+
+          <!-- Card 4: Project Circuit Vector Engine -->
+          <div class="gallery-card" data-img="/static/assets/project-reference.png" data-caption="SVG Dynamic Vector Track & DRS Telemetry Engine">
+            <div class="gallery-img-wrap">
+              <img src="/static/assets/project-reference.png" alt="SVG Circuit Reference" class="gallery-img" loading="lazy">
+              <div class="gallery-overlay">
+                <i class="fa-solid fa-magnifying-glass-plus"></i>
+                <span>EXPAND VIEW</span>
+              </div>
+            </div>
+            <div class="gallery-info">
+              <div class="gallery-tag">VECTOR ENGINE</div>
+              <h4 class="gallery-card-title">Dynamic Circuit Model</h4>
+              <p class="gallery-card-desc">Mathematical SVG curve simulating race line trajectory, sector splits (S1/S2/S3), and DRS activation straight.</p>
+            </div>
+          </div>
+
+          <!-- Card 5: Dimensions Grid Reference -->
+          <div class="gallery-card" data-img="/static/assets/dimensions-reference.png" data-caption="Six Telemetry Analytical Dimensions & Live Ticker Bar">
+            <div class="gallery-img-wrap">
+              <img src="/static/assets/dimensions-reference.png" alt="Dimensions Reference" class="gallery-img" loading="lazy">
+              <div class="gallery-overlay">
+                <i class="fa-solid fa-magnifying-glass-plus"></i>
+                <span>EXPAND VIEW</span>
+              </div>
+            </div>
+            <div class="gallery-info">
+              <div class="gallery-tag">ANALYTICAL DOMAINS</div>
+              <h4 class="gallery-card-title">Intelligence Dimensions Grid</h4>
+              <p class="gallery-card-desc">Domain cards with live infinite ticker marquee cycling through key statistical findings from the 6,464 race records.</p>
+            </div>
+          </div>
+
+          <!-- Card 6: Story Frame Architecture -->
+          <div class="gallery-card" data-img="/static/assets/story-frame-reference.png" data-caption="Tableau Public Story Navigator & Dynamic Telemetry Captions">
+            <div class="gallery-img-wrap">
+              <img src="/static/assets/story-frame-reference.png" alt="Story Frame Reference" class="gallery-img" loading="lazy">
+              <div class="gallery-overlay">
+                <i class="fa-solid fa-magnifying-glass-plus"></i>
+                <span>EXPAND VIEW</span>
+              </div>
+            </div>
+            <div class="gallery-info">
+              <div class="gallery-tag">STORY ARCHITECTURE</div>
+              <h4 class="gallery-card-title">Interactive Chapter Navigator</h4>
+              <p class="gallery-card-desc">Context-aware narrative navigator updating telemetry descriptions synchronously with user exploration.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         SECTION 7: KEY FINDINGS & CHART.JS SECTION
+         ====================================================================== -->
+    <section class="insights-section" id="insights-data">
+      <div class="section-top-line"></div>
+      <div class="container">
+        <!-- Header -->
+        <div class="section-header">
+          <span class="section-eyebrow">DATASET INTELLIGENCE</span>
+          <h2 class="section-title">Key Findings & <span class="text-red">Telemetry Analytics</span></h2>
+          <p class="section-subtitle">Computed analytics from 6,464 race outcomes across 17 seasons (2010â€“2026) and 29 world circuits.</p>
+          <div class="diamond-divider">
+            <span class="line"></span>
+            <span class="diamond">â—†</span>
+            <span class="line"></span>
+          </div>
+        </div>
+
+        <!-- 6 Telemetry Stat Cards -->
+        <div class="insights-cards-grid">
+          <!-- Card 1 -->
+          <div class="insight-card">
+            <div class="insight-card-top">
+              <div class="insight-badge">CHAMPIONSHIP DOMINATION</div>
+              <div class="insight-val">6 TITLES</div>
+            </div>
+            <h3 class="insight-card-title">Lewis Hamilton & Mercedes-AMG</h3>
+            <p class="insight-card-desc">
+              Lewis Hamilton scored 4,491 career championship points with Mercedes during the turbo-hybrid era, setting the benchmark for consistency.
+            </p>
+            <div class="insight-bar-box">
+              <div class="insight-bar-label"><span>Career Points Share</span><span>31,147 pts</span></div>
+              <div class="insight-bar-track"><div class="insight-bar-fill" style="width: 98%;"></div></div>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="insight-card">
+            <div class="insight-card-top">
+              <div class="insight-badge">CONSTRUCTOR SUPREMACY</div>
+              <div class="insight-val">8,006 PTS</div>
+            </div>
+            <h3 class="insight-card-title">Red Bull Racing Dominance</h3>
+            <p class="insight-card-desc">
+              Red Bull Racing accumulated 8,006 points across the dataset, edging out Mercedes (7,790 pts) and Ferrari (5,778 pts).
+            </p>
+            <div class="insight-bar-box">
+              <div class="insight-bar-label"><span>Constructor Points Lead</span><span>8,006 pts</span></div>
+              <div class="insight-bar-track"><div class="insight-bar-fill" style="width: 100%;"></div></div>
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="insight-card">
+            <div class="insight-card-top">
+              <div class="insight-badge">TYRE COMPOUND SHARE</div>
+              <div class="insight-val">31.52%</div>
+            </div>
+            <h3 class="insight-card-title">Soft Tyre Stint Superiority</h3>
+            <p class="insight-card-desc">
+              Telemetry across all laps shows Pirelli Soft compounds account for 31.52% of race stints, followed by Medium (30.78%) and Hard (30.36%).
+            </p>
+            <div class="insight-bar-box">
+              <div class="insight-bar-label"><span>Soft Compound Proportion</span><span>31.52%</span></div>
+              <div class="insight-bar-track"><div class="insight-bar-fill" style="width: 31.52%;"></div></div>
+            </div>
+          </div>
+
+          <!-- Card 4 -->
+          <div class="insight-card">
+            <div class="insight-card-top">
+              <div class="insight-badge">PIT STOP PRECISION</div>
+              <div class="insight-val">2.18s</div>
+            </div>
+            <h3 class="insight-card-title">Scuderia Ferrari Benchmark</h3>
+            <p class="insight-card-desc">
+              Ferrari logged the fastest average stationary pit stop time at 2.18 seconds, while Red Bull Racing holds the overall volume for sub-2.4s stops.
+            </p>
+            <div class="insight-bar-box">
+              <div class="insight-bar-label"><span>Average Service Time</span><span>2.18 sec</span></div>
+              <div class="insight-bar-track"><div class="insight-bar-fill" style="width: 88%;"></div></div>
+            </div>
+          </div>
+
+          <!-- Card 5 -->
+          <div class="insight-card">
+            <div class="insight-card-top">
+              <div class="insight-badge">GLOBAL FOOTPRINT</div>
+              <div class="insight-val">2,168 OUTCOMES</div>
+            </div>
+            <h3 class="insight-card-title">Bahrain International Circuit</h3>
+            <p class="insight-card-desc">
+              Bahrain leads all 29 Grand Prix circuits with 2,168 logged outcomes, followed by United States (400), Monaco (328), and Spain (328).
+            </p>
+            <div class="insight-bar-box">
+              <div class="insight-bar-label"><span>Circuit Participation Share</span><span>33.5%</span></div>
+              <div class="insight-bar-track"><div class="insight-bar-fill" style="width: 33.5%;"></div></div>
+            </div>
+          </div>
+
+          <!-- Card 6 -->
+          <div class="insight-card">
+            <div class="insight-card-top">
+              <div class="insight-badge">GRID RELIABILITY</div>
+              <div class="insight-val">91.4%</div>
+            </div>
+            <h3 class="insight-card-title">Modern Hybrid Grid Reliability</h3>
+            <p class="insight-card-desc">
+              Power unit reliability has matured substantially, with the modern grid maintaining an average race completion rate of 91.4%.
+            </p>
+            <div class="insight-bar-box">
+              <div class="insight-bar-label"><span>Average Finish Rate</span><span>91.4%</span></div>
+              <div class="insight-bar-track"><div class="insight-bar-fill" style="width: 91.4%;"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4 Chart.js Telemetry Charts -->
+        <div class="charts-2x2-grid">
+          <!-- Chart 1: Driver Performance Leaderboard -->
+          <div class="chart-container-card">
+            <div class="chart-header">
+              <div class="chart-header-left">
+                <i class="fa-solid fa-ranking-star"></i>
+                <h4 class="chart-title">Driver Performance Leaderboard</h4>
+              </div>
+              <span class="chart-badge">TABLEAU METRIC</span>
+            </div>
+            <p class="chart-desc">All-time championship points haul across 6,464 logged race results (Matching Top N Parameter view).</p>
+            <div class="chart-canvas-box">
+              <canvas id="driverLeaderboardChart"></canvas>
+            </div>
+          </div>
+
+          <!-- Chart 2: Team Performance Ranking -->
+          <div class="chart-container-card">
+            <div class="chart-header">
+              <div class="chart-header-left">
+                <i class="fa-solid fa-shield-halved"></i>
+                <h4 class="chart-title">Team Performance Ranking</h4>
+              </div>
+              <span class="chart-badge">CONSTRUCTORS</span>
+            </div>
+            <p class="chart-desc">Accumulated championship points across all 10 active constructors in the hybrid regulation era.</p>
+            <div class="chart-canvas-box">
+              <canvas id="teamRankingChart"></canvas>
+            </div>
+          </div>
+
+          <!-- Chart 3: Tyre Compound Share -->
+          <div class="chart-container-card">
+            <div class="chart-header">
+              <div class="chart-header-left">
+                <i class="fa-solid fa-compact-disc"></i>
+                <h4 class="chart-title">Tyre Compound Usage Share</h4>
+              </div>
+              <span class="chart-badge">PIRELLI TELEMETRY</span>
+            </div>
+            <p class="chart-desc">Percentage breakdown of tyre compounds utilized across 3,814 telemetry laps.</p>
+            <div class="chart-canvas-box">
+              <canvas id="tyreCompoundChart"></canvas>
+            </div>
+          </div>
+
+          <!-- Chart 4: Reliability & DNF Attrition -->
+          <div class="chart-container-card">
+            <div class="chart-header">
+              <div class="chart-header-left">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                <h4 class="chart-title">Driver Reliability & DNF Attrition</h4>
+              </div>
+              <span class="chart-badge">DIAGNOSTICS</span>
+            </div>
+            <p class="chart-desc">Retirement breakdown categorized by primary mechanical failure mode and accident attribution.</p>
+            <div class="chart-canvas-box">
+              <canvas id="dnfReliabilityChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         SECTION 8: DRIVERS SECTION (Interactive Search & Grid)
+         ====================================================================== -->
+    <section class="drivers-section" id="drivers">
+      <div class="section-top-line"></div>
+      <div class="container">
+        <!-- Header -->
+        <div class="section-header">
+          <span class="section-eyebrow">CHAMPIONSHIP PILOTS</span>
+          <h2 class="section-title">Driver Performance <span class="text-red">Telemetry</span></h2>
+          <p class="section-subtitle">Career points, podium conversion rates, and telemetry statistics for active and championship drivers.</p>
+          <div class="diamond-divider">
+            <span class="line"></span>
+            <span class="diamond">â—†</span>
+            <span class="line"></span>
+          </div>
+        </div>
+
+        <!-- Filter Controls Bar -->
+        <div class="drivers-filter-bar">
+          <div class="search-input-box">
+            <i class="fa-solid fa-magnifying-glass search-icon"></i>
+            <input type="text" id="driverSearchInput" placeholder="Search driver or constructor..." class="driver-search-field">
+          </div>
+
+          <div class="filter-controls-group">
+            <select id="seasonFilterSelect" class="driver-filter-select" aria-label="Filter by Season">
+              <option value="all">All Seasons (2010â€“2026)</option>
+              <option value="2026">2026 Season</option>
+              <option value="2025">2025 Season</option>
+              <option value="2024">2024 Season</option>
+              <option value="2023">2023 Season</option>
+              <option value="2022">2022 Season</option>
+              <option value="2021">2021 Season</option>
+              <option value="2020">2020 Season</option>
+            </select>
+
+            <select id="driverSortSelect" class="driver-filter-select" aria-label="Sort Drivers">
+              <option value="points">Sort: Highest Points</option>
+              <option value="wins">Sort: Most Wins</option>
+              <option value="podiums">Sort: Most Podiums</option>
+              <option value="poles">Sort: Pole Positions</option>
+              <option value="least-dnf">Sort: Least DNFs</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Driver Cards Grid -->
+        <div class="drivers-grid" id="driversGrid">
+          <!-- Dynamically populated via script.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         SECTION 9: CONTACT SECTION (Glass Card + Form Validation)
+         ====================================================================== -->
+    <section class="contact-section" id="contact">
+      <div class="section-top-line"></div>
+      <div class="container">
+        <!-- Header -->
+        <div class="section-header">
+          <span class="section-eyebrow">DEVELOPER TERMINAL</span>
+          <h2 class="section-title">Race Intelligence <span class="text-red">Terminal</span></h2>
+          <p class="section-subtitle">Inquire about telemetry models, Tableau dashboard integrations, or custom Formula 1 data analytics.</p>
+          <div class="diamond-divider">
+            <span class="line"></span>
+            <span class="diamond">â—†</span>
+            <span class="line"></span>
+          </div>
+        </div>
+
+        <!-- Glass Contact Container -->
+        <div class="contact-glass-card">
+          <!-- Left Column -->
+          <div class="contact-left">
+            <div>
+              <h3>Paddock Data Operations</h3>
+              <p>
+                Engineered by <strong>Shraddha Patel</strong>, this analytics terminal bridges high-speed motorsport telemetry with enterprise business intelligence. Inquire about predictive models, live Tableau embeds, or dataset engineering.
+              </p>
+
+              <div class="contact-info-list">
+                <div class="contact-info-item">
+                  <i class="fa-solid fa-user-gear"></i>
+                  <span><strong>Lead Architect:</strong> Shraddha Patel</span>
+                </div>
+                <div class="contact-info-item">
+                  <i class="fa-solid fa-chart-pie"></i>
+                  <span><strong>Tableau Public:</strong> shraddha patel</span>
+                </div>
+                <div class="contact-info-item">
+                  <i class="fa-solid fa-layer-group"></i>
+                  <span><strong>Workbook:</strong> F1 Race Intelligence Dashboard_2</span>
+                </div>
+                <div class="contact-info-item">
+                  <i class="fa-solid fa-server"></i>
+                  <span><strong>Flask Service:</strong> Python RESTful API & Dynamic Jinja2</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Social Links -->
+            <div>
+              <div class="contact-socials">
+                <a href="https://public.tableau.com/app/profile/shraddha.patel" target="_blank" rel="noopener" class="social-circle-btn" aria-label="Tableau Public Profile">
+                  <i class="fa-solid fa-chart-column"></i>
+                </a>
+                <a href="https://github.com/en25cs3090205-ux/F1" target="_blank" rel="noopener" class="social-circle-btn" aria-label="GitHub Repository">
+                  <i class="fa-brands fa-github"></i>
+                </a>
+                <a href="https://linkedin.com" target="_blank" rel="noopener" class="social-circle-btn" aria-label="LinkedIn Profile">
+                  <i class="fa-brands fa-linkedin-in"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: Interactive Form -->
+          <form class="contact-form" id="contactForm" novalidate>
+            <div class="form-group">
+              <label for="contactName">FULL NAME *</label>
+              <input type="text" id="contactName" class="form-control" placeholder="e.g. Lewis Hamilton" required>
+            </div>
+
+            <div class="form-group">
+              <label for="contactEmail">EMAIL ADDRESS *</label>
+              <input type="email" id="contactEmail" class="form-control" placeholder="name@domain.com" required>
+            </div>
+
+            <div class="form-group">
+              <label for="contactSubject">INQUIRY TOPIC</label>
+              <select id="contactSubject" class="form-control">
+                <option value="dashboard">Tableau Dashboard Integration</option>
+                <option value="story">9-Scene Story Narrative Exploration</option>
+                <option value="telemetry">Telemetry Dataset & Calculated Fields</option>
+                <option value="flask">Flask Web Application Architecture</option>
+                <option value="general">General Formula 1 Inquiry</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="contactMessage">TELEMETRY INQUIRY / MESSAGE *</label>
+              <textarea id="contactMessage" class="form-control" placeholder="Describe your analytics requirements or feedback..." required></textarea>
+            </div>
+
+            <button type="submit" class="btn-primary" id="btnSubmitForm">
+              <i class="fa-solid fa-paper-plane"></i> TRANSMIT TELEMETRY
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ========================================================================
+       FOOTER (Obsidian, Red Accent Border, Attribution & Disclaimer)
+       ======================================================================== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand-col">
+          <div class="brand-logo">
+            <span class="f1-badge">F1</span>
+            <span class="brand-text">RACE INTELLIGENCE</span>
+          </div>
+          <p>
+            An advanced Formula 1 telemetry platform transforming race outcomes, driver performance, and tyre strategies into actionable championship intelligence.
+          </p>
+          <p style="margin-top: 10px; font-size: 13px; color: #ff3333;">
+            <i class="fa-solid fa-shield-halved"></i> Engineered by <strong>Shraddha Patel</strong> (shraddha patel on Tableau Public)
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h4>NAVIGATION</h4>
+          <ul>
+            <li><a href="#home">Home Experience</a></li>
+            <li><a href="#project">Project Overview</a></li>
+            <li><a href="#insights">Intelligence Dimensions</a></li>
+            <li><a href="#dashboard">Live Dashboard</a></li>
+            <li><a href="#story">9-Scene Story</a></li>
+            <li><a href="#insights-data">Key Findings</a></li>
+            <li><a href="#drivers">Driver Telemetry</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>INTELLIGENCE STACK</h4>
+          <ul>
+            <li><a href="#dashboard">Tableau Public Engine (F1 Race Intelligence Dashboard_2)</a></li>
+            <li><a href="#insights-data">Chart.js Telemetry Suite</a></li>
+            <li><a href="#project">SVG Circuit Vector Engine</a></li>
+            <li><a href="#home">Python Flask Service Layer</a></li>
+            <li><a href="#contact">6,464 Race Outcomes Dataset</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>
+          Â© 2026 Formula 1 Race Intelligence. Built with Tableau Public & Flask by <strong>Shraddha Patel</strong>.
+        </div>
+        <div class="footer-disclaimer">
+          Notice: This is an independent academic, educational, and analytics project developed by Shraddha Patel. Formula 1, F1, FIA, and related marks are trademarks of Formula One Licensing B.V. Not affiliated with or endorsed by Formula 1 companies.
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========================================================================
+       LIGHTBOX MODAL FOR GALLERY
+       ======================================================================== -->
+  <div id="lightboxModal" role="dialog" aria-modal="true" aria-label="Image Lightbox">
+    <button class="lightbox-close-btn" id="lightboxCloseBtn" aria-label="Close Lightbox">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+    <button class="lightbox-nav-btn lightbox-prev" id="lightboxPrevBtn" aria-label="Previous Image">
+      <i class="fa-solid fa-chevron-left"></i>
+    </button>
+    <button class="lightbox-nav-btn lightbox-next" id="lightboxNextBtn" aria-label="Next Image">
+      <i class="fa-solid fa-chevron-right"></i>
+    </button>
+    <div class="lightbox-content-box">
+      <img src="" alt="Enlarged view" class="lightbox-image" id="lightboxImg">
+      <div class="lightbox-caption-text" id="lightboxCaption"></div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       FLOATING BACK TO TOP BUTTON
+       ======================================================================== -->
+  <button id="backToTopBtn" aria-label="Back to Top">
+    <i class="fa-solid fa-arrow-up"></i>
+  </button>
+
+  <!-- ========================================================================
+       TOAST NOTIFICATION
+       ======================================================================== -->
+  <div id="toastBox">
+    <i class="fa-solid fa-circle-check"></i>
+    <span id="toastMessage">Telemetry transmission received successfully!</span>
+  </div>
+
+  <!-- Core Data Script (Provides F1_DATA object with zero-CORS local compatibility) -->
+  <script src="static/js/data.js"></script>
+
+    <!-- Server Config Injection -->
+  <script>
+    window.TABLEAU_CONFIG = {
+      authorName: "Shraddha Patel",
+      authorHandle: "shraddha patel",
+      tableauPublicProfile: "https://public.tableau.com/app/profile/shraddha.patel",
+      githubRepo: "https://github.com/en25cs3090205-ux/F1",
+      workbookName: "F1 Race Intelligence Dashboard_2",
+      dashboardUrl: "https://prod-in-a.online.tableau.com/#/site/en25cs3090205-84b4be6312/views/F1RaceIntelligenceDashboard_2/FORMULA1RACEINTELLIGENCEDASHBOARD?:iid=1",
+      storyUrl: "https://prod-in-a.online.tableau.com/#/site/en25cs3090205-84b4be6312/views/F1RACEStory/Formula1RaceIntelligenceFromGlobalOverviewtoChampionshipSuccess?:iid=2",
+      dashboardEmbedUrl: "https://prod-in-a.online.tableau.com/t/en25cs3090205-84b4be6312/views/F1RaceIntelligenceDashboard_2/FORMULA1RACEINTELLIGENCEDASHBOARD?:embed=yes&:showVizHome=no&:toolbar=yes&:tabs=no&:showAppBanner=false",
+      storyEmbedUrl: "https://prod-in-a.online.tableau.com/t/en25cs3090205-84b4be6312/views/F1RACEStory/Formula1RaceIntelligenceFromGlobalOverviewtoChampionshipSuccess?:embed=yes&:showVizHome=no&:toolbar=yes&:tabs=no&:showAppBanner=false"
+    };
+  </script>
+  <!-- Application Logic -->
+  <script src="static/js/script.js"></script>
+</body>
+</html>

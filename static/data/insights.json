@@ -1,0 +1,56 @@
+[
+  {
+    "id": "champ_dominance",
+    "title": "Championship Domination",
+    "stat": "6 WORLD TITLES",
+    "driver_team": "Lewis Hamilton & Mercedes AMG",
+    "desc": "Lewis Hamilton amassed 4,491 championship points and 6 titles in the hybrid regulation era, forming the most successful partnership in modern Grand Prix history with Mercedes.",
+    "badge": "TITLE GLORY",
+    "icon": "fa-trophy"
+  },
+  {
+    "id": "constructor_pinnacle",
+    "title": "Constructor Supremacy",
+    "stat": "8,006 POINTS",
+    "driver_team": "Red Bull Racing",
+    "desc": "Red Bull Racing stands atop the Constructor Championship ladder with 8,006 accumulated points and peak race-win conversion led by Max Verstappen and Sergio Perez.",
+    "badge": "TEAM PEAK",
+    "icon": "fa-shield-halved"
+  },
+  {
+    "id": "tyre_strategy",
+    "title": "Tyre Compound Superiority",
+    "stat": "31.52% SOFT USAGE",
+    "driver_team": "Pirelli Compound Matrix",
+    "desc": "The Soft compound dominated qualifying and opening stints across 1,202 telemetry-recorded laps, followed closely by Medium at 30.78% and Hard at 30.36%.",
+    "badge": "TELEMETRY",
+    "icon": "fa-circle-notch"
+  },
+  {
+    "id": "pit_execution",
+    "title": "Pit Lane Precision",
+    "stat": "2.18s RECORD STOP",
+    "driver_team": "Scuderia Ferrari & Red Bull",
+    "desc": "Sub-2.3s pit executions yielded decisive undercut advantages, with Ferrari leading consistency in optimal strategy windows across high-degradation street circuits.",
+    "badge": "EFFICIENCY",
+    "icon": "fa-stopwatch-20"
+  },
+  {
+    "id": "race_volume",
+    "title": "Global Circuit Footprint",
+    "stat": "2,168 OUTCOMES",
+    "driver_team": "Bahrain International Circuit",
+    "desc": "Bahrain served as the primary telemetry crucible with 2,168 logged outcomes, followed by Monaco (328), Spain (328), and the United States (400) across 29 world circuits.",
+    "badge": "CIRCUIT DATA",
+    "icon": "fa-flag-checkered"
+  },
+  {
+    "id": "reliability_factor",
+    "title": "Reliability & Attrition",
+    "stat": "91.4% COMPLETION",
+    "driver_team": "Full Grid Telemetry",
+    "desc": "Powertrain and hydraulic reliability advanced by 18% over the analyzed seasons, while high-risk street circuits (Monaco, Singapore, Baku) induced 64% of Safety Car phases.",
+    "badge": "INTELLIGENCE",
+    "icon": "fa-gauge-high"
+  }
+]
